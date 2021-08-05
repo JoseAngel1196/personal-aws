@@ -1,9 +1,9 @@
 terraform {
-    required_providers {
-      aws = {
-           source = "hashicorp/aws"
-      }
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
     }
+  }
 }
 
 provider "aws" {
