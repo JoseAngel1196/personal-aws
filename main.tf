@@ -1,18 +1,9 @@
-# module "compute" {
-#   source          = "./compute"
-#   instance_count  = 1
-#   instance_type   = "t3.micro"
-#   ami             = "ami-04387c27258f75ab9" # Hardcoded AMI kali-linux
-#   key_name        = "jose-personal-aws"
-#   public_key_path = "/Users/jose/.ssh/jose_kali_machine.pub"
-# }
-
-module "iam" {
-  source           = "./iam"
-  s3_bucket_1_name = module.s3.s3_bucket_1_name
-  s3_bucket_2_name = module.s3.s3_bucket_2_name
-}
-
-module "s3" {
-  source = "./s3"
+module "networking" {
+  source     = "./networking"
+  cidr_block = local.cidr_block
+  max_subnets = 8
+  private_sn_count = 4
+  public_sn_count = 4
+  public_cidrs     = [for i in range(2, 256, 2) : cidrsubnet(local.cidr_block, 8, i)]
+  private_cidrs    = [for i in range(1, 256, 2) : cidrsubnet(local.cidr_block, 8, i)]
 }

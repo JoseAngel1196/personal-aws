@@ -1,3 +1,3 @@
-# output "public_ip" {
-#     value = [for x in module.compute[*] : x]
-# }
+output "availability_zones_available" {
+  value = module.networking.availability_zones_available
+}
