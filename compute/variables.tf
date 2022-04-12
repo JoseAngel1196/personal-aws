@@ -1,9 +1,24 @@
-variable "instance_count" {}
+variable "instance_count" {
+  type    = number
+  default = 1
+}
 
-variable "ami" {}
+variable "ami" {
+  type = string
+}
 
-variable "instance_type" {}
+variable "key_name" {
+  type = string
+}
 
-variable "key_name" {}
+variable "public_key_path" {
+  type = string
+}
 
-variable "public_key_path" {}
+variable "public_subnets" {
+  type = list(string)
+}
+
+variable "public_security_group" {
+    type = string
+}

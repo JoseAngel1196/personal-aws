@@ -47,9 +47,9 @@ resource "aws_internet_gateway" "gw-example" {
 resource "aws_subnet" "public_subnet" {
   count = var.public_sn_count
 
-  vpc_id = local.vpc_id
-  cidr_block = var.public_cidrs[count.index]
-  availability_zone = random_shuffle.az_list.result[count.index]
+  vpc_id                  = local.vpc_id
+  cidr_block              = var.public_cidrs[count.index]
+  availability_zone       = random_shuffle.az_list.result[count.index]
   map_public_ip_on_launch = true
 
   tags = {
@@ -63,14 +63,14 @@ resource "aws_subnet" "public_subnet" {
 
 resource "aws_subnet" "private_subnet" {
   count = var.private_sn_count
-  
-  vpc_id = local.vpc_id
-  cidr_block = var.private_cidrs[count.index]
+
+  vpc_id            = local.vpc_id
+  cidr_block        = var.private_cidrs[count.index]
   availability_zone = random_shuffle.az_list.result[count.index]
 
   tags = {
     Name = "${local.vpc_id}-private-sn-${count.index}"
-  } 
+  }
 }
 
 #########################################
@@ -86,9 +86,9 @@ resource "aws_route_table" "public_rtb" {
 }
 
 resource "aws_route" "public_route" {
-  route_table_id            =  aws_route_table.public_rtb.id
-  destination_cidr_block    = "0.0.0.0/0"
-  gateway_id = aws_internet_gateway.gw-example.id
+  route_table_id         = aws_route_table.public_rtb.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.gw-example.id
 }
 
 resource "aws_route_table_association" "public_rtb_association" {
@@ -96,4 +96,29 @@ resource "aws_route_table_association" "public_rtb_association" {
 
   subnet_id      = aws_subnet.public_subnet.*.id[count.index]
   route_table_id = aws_route_table.public_rtb.id
+}
+
+#########################################
+########### Security Groups #############
+#########################################
+
+resource "aws_security_group" "security-group-us-east-1-example" {
+  name = "public_sg"
+  description = "Security Group for Public Access"
+  vpc_id = local.vpc_id
+
+   ingress {
+    description      = "SSH"
+    from_port        = 22
+    to_port          = 22
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }  
 }
