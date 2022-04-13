@@ -122,3 +122,38 @@ resource "aws_security_group" "security-group-us-east-1-example" {
     cidr_blocks = ["0.0.0.0/0"]
   }  
 }
+
+#########################################
+############# Nat Gateway ###############
+#########################################
+
+# To create a nat gateway, we need to:
+# Create a Elastic IP
+# Associate the Elastic IP to our nat gateway
+# Modify our main route table to allow public connections for our nat gateway
+
+resource "aws_eip" "eip-example" {
+  vpc      = true
+}
+
+resource "aws_nat_gateway" "nat-gateway-us-east-1-example" {
+  allocation_id = aws_eip.eip-example.id
+  subnet_id = aws_subnet.public_subnet.*.id[0]
+
+  tags = {
+    Name = "${local.vpc_id}-nat-gateway-us-east-1-example"
+  }
+}
+
+resource "aws_default_route_table" "default-route-table" {
+  default_route_table_id = aws_vpc.vpc-us-east-1-d-example.default_route_table_id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat-gateway-us-east-1-example.id
+  }
+
+  tags = {
+    Name = "${local.vpc_id}-default-route-table-example"
+  }
+}
