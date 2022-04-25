@@ -1,5 +1,5 @@
 output "ssh_key_name" {
-    value = aws_key_pair.ssh.key_name
+  value = aws_key_pair.ssh.key_name
 }
 
 output "ssh_private_key_pem" {

@@ -24,7 +24,7 @@ variable "private_subnets" {
 }
 
 variable "public_security_group" {
-    type = string
+  type = string
 }
 
 variable "ssh_key_name" {
@@ -33,4 +33,9 @@ variable "ssh_key_name" {
 
 variable "ssh_public_key_pem" {
   type = string
+}
+
+variable "total_of_hosts_to_create" {
+  type    = number
+  default = 3
 }

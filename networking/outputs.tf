@@ -7,7 +7,7 @@ output "public_subnets" {
 }
 
 output "private_subnets" {
-value = aws_subnet.private_subnet.*.id
+  value = aws_subnet.private_subnet.*.id
 }
 
 output "public_security_group" {
