@@ -33,3 +33,13 @@ variable "vpc_cidr" {
   type    = string
   default = "10.10.0.0/16"
 }
+
+variable "deploy_public_instance" {
+  type    = bool
+  default = false
+}
+
+variable "deploy_private_instance" {
+  type    = bool
+  default = false
+}
