@@ -1,41 +1,35 @@
-variable "instance_count" {
+variable "vpc_id" {
+  type = string
+}
+
+variable "ubuntu_ami" {
+  type    = string
+  default = "ami-0e86e20dae9224db8"
+}
+
+variable "instance_type" {
+  type    = string
+  default = "t2.medium"
+}
+
+variable "worker_nodes_count" {
   type    = number
-  default = 1
+  default = 2
 }
 
-variable "ami" {
+variable "public_subnet_id" {
   type = string
 }
 
-variable "key_name" {
-  type = string
-}
-
-variable "public_key_path" {
-  type = string
-}
-
-variable "public_subnets" {
+variable "private_subnet_ids" {
   type = list(string)
 }
 
-variable "private_subnets" {
-  type = list(string)
-}
-
-variable "public_security_group" {
+variable "key_pair_name" {
   type = string
 }
 
-variable "ssh_key_name" {
-  type = string
-}
-
-variable "ssh_public_key_pem" {
-  type = string
-}
-
-variable "total_of_hosts_to_create" {
-  type    = number
-  default = 3
+variable "vpc_cidr" {
+  type    = string
+  default = "10.10.0.0/16"
 }

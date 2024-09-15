@@ -1,23 +1,21 @@
-variable "cidr_block" {
-  type = string
+variable "vpc_cidr" {
+  type    = string
+  default = "10.10.0.0/16"
 }
 
-variable "max_subnets" {
-  type = number
+variable "public_subnet_count" {
+  type    = number
+  default = 6
 }
 
-variable "public_sn_count" {
-  type = number
+variable "private_subnet_count" {
+  type    = number
+  default = 6
 }
 
-variable "private_sn_count" {
-  type = number
-}
-
-variable "public_cidrs" {
-  type = list(string)
-}
-
-variable "private_cidrs" {
-  type = list(string)
+variable "tags" {
+  type = map(string)
+  default = {
+    Project = "kubeadm"
+  }
 }
